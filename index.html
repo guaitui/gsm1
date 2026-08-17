@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乖国特训官网</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "KaiTi", sans-serif;
+        }
+        body {
+            background-color: #1a1a2e;
+            color: #eee;
+        }
+        .lang-select-wrap {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        #langSelect {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            background: #00d4ff;
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+        #langSelect:hover {
+            background: #00b8de;
+        }
+        #langSelect option {
+            background: #16213e;
+            color: #fff;
+        }
+        html[lang="ar"] body {
+            direction: rtl;
+        }
+        html[lang="ar"] .lang-select-wrap {
+            left: 10px;
+            right: auto;
+        }
+        .password-box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #16213e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .pwd-container {
+            background: #1a1a2e;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px #0f3460;
+            width: 90%;
+            max-width:380px;
+        }
+        .pwd-container h2 {
+            text-align: center;
+            margin-bottom:25px;
+            color: #00d4ff;
+        }
+        #pwd-input {
+            width: 100%;
+            padding:14px 16px;
+            font-size:16px;
+            border:2px solid #273b5c;
+            border-radius:8px;
+            background:#0f172a;
+            color:#fff;
+            outline:none;
+        }
+        #pwd-input:focus {
+            border-color: #00d4ff;
+        }
+        .tip {
+            color: #ff6b6b;
+            font-size:14px;
+            margin:10px 0;
+            height:20px;
+        }
+        #submit-pwd {
+            width:100%;
+            margin-top:12px;
+            padding:13px;
+            border:none;
+            border-radius:8px;
+            background:#00d4ff;
+            color:#000;
+            font-weight:bold;
+            font-size:16px;
+            cursor:pointer;
+        }
+        #submit-pwd:hover{
+            background:#00b8de;
+        }
+        .blog-wrap{
+            display:none;
+            min-height:100vh;
+        }
+        header{
+            background:#0f3460;
+            padding:30px 20px;
+            text-align:center;
+        }
+        header h1{
+            color:#00d4ff;
+            margin-bottom:8px;
+        }
+        header p{
+            color:#b0c4de;
+        }
+        nav{
+            background:#16213e;
+            padding:14px;
+            text-align:center;
+        }
+        nav a{
+            color:#cce5ff;
+            text-decoration:none;
+            margin:0 14px;
+            font-size:16px;
+        }
+        nav a:hover{
+            color:#00d4ff;
+        }
+        main{
+            max-width:900px;
+            margin:40px auto;
+            padding:0 20px;
+        }
+        .article-card{
+            background:#16213e;
+            padding:24px;
+            border-radius:10px;
+            margin-bottom:22px;
+        }
+        .article-card h3{
+            color:#00d4ff;
+            margin-bottom:10px;
+        }
+        .article-card p{
+            line-height:1.7;
+            color:#dbe4f0;
+            margin-top:8px;
+        }
+        footer{
+            text-align:center;
+            padding:25px;
+            color:#778899;
+            font-size:14px;
+        }
+        .post-form-wrap{
+            background:#0f3460;
+            padding:24px;
+            border-radius:10px;
+            margin-bottom:30px;
+        }
+        .post-form-wrap h3{
+            color:#00d4ff;
+            margin-bottom:15px;
+        }
+        .post-input{
+            width:100%;
+            padding:12px;
+            margin-bottom:12px;
+            background:#16213e;
+            border:2px solid #273b5c;
+            border-radius:8px;
+            color:#fff;
+            font-size:15px;
+            outline:none;
+        }
+        .post-input:focus{
+            border-color:#00d4ff;
+        }
+        textarea.post-input{
+            min-height:120px;
+            resize:vertical;
+        }
+        #submit-post{
+            padding:10px 26px;
+            border:none;
+            border-radius:8px;
+            background:#00d4ff;
+            color:#000;
+            font-weight:bold;
+            cursor:pointer;
+        }
+        #submit-post:hover{
+            background:#00b8de;
+        }
+        .post-item{
+            background:#16213e;
+            padding:20px;
+            border-radius:10px;
+            margin-bottom:18px;
+        }
+        .post-item h4{
+            color:#00d4ff;
+            margin-bottom:6px;
+        }
+        .post-time{
+            font-size:12px;
+            color:#8899aa;
+            margin-bottom:10px;
+        }
+        .post-content{
+            color:#dbe4f0;
+            line-height:1.7;
+        }
+        .post-section-title{
+            color:#00d4ff;
+            margin:40px 0 15px;
+        }
+        /* 欢迎弹窗新增样式 */
+        .welcome-box {
+            position: fixed;
+            inset: 0;
+            background: #16213e;
+            z-index: 998;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
+        .welcome-title {
+            font-size: 32px;
+            color: #00d4ff;
+            margin-bottom: 30px;
+        }
+        .fact-text {
+            font-size: 18px;
+            max-width: 700px;
+            line-height: 1.8;
+            color: #e0edff;
+            min-height: 80px;
+        }
+        .countdown-tip {
+            margin-top: 40px;
+            color: #ffc857;
+            font-size: 16px;
+        }
+        /* GSM教师验证弹窗 */
+        .gsm-verify-box {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .gsm-verify-wrap {
+            background: #1a1a2e;
+            padding: 35px 28px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 360px;
+            box-shadow: 0 0 30px #00d4ff40;
+        }
+        .gsm-verify-wrap h3 {
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #teacher-code-input {
+            width: 100%;
+            padding: 13px 15px;
+            background: #0f172a;
+            border: 2px solid #273b5c;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+        #teacher-code-input:focus {
+            border-color: #00d4ff;
+        }
+        .verify-error-tip {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin: 10px 0;
+            height: 20px;
+        }
+        .verify-btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        #confirm-verify {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #00d4ff;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #cancel-verify {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #334155;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<p>语言不正确？在右侧修改</p>
+<p>Wrong language? Change it on the right</p>
+<p>Mauvaise langue ? Modifiez‑la à droite</p>
+<p>Falsche Sprache? Ändern Sie diese rechts</p>
+<p>	اللغة غير صحيحة؟ قم بالتعديل على اليمين</p>
+<p>Неверный язык? Измените справа</p>
+<p>言語が間違っていますか？右側で変更してください</p>
+    <div class="lang-select-wrap">
+        <select id="langSelect">
+            <option value="de">🇩🇪 Deutsch(DE)</option>
+            <option value="en">🇬🇧 English(GB)</option>
+            <option value="fr">🇫🇷 Français(FR)</option>
+            <option value="ru">🇷🇺 Русский(RU)</option>
+            <option value="ja">🇯🇵 日本語(JP)</option>
+            <option value="ar">لعربية(SA)🇸🇦</option>
+            <option value="zh">🇨🇳 中文(CN)</option>
+        </select>
+    </div>
+    <!-- GSM教师验证码弹窗 -->
+    <div class="gsm-verify-box" id="gsmVerifyModal">
+        <div class="gsm-verify-wrap">
+            <h3 id="verify-title"></h3>
+            <input type="text" id="teacher-code-input" placeholder="">
+            <div class="verify-error-tip" id="verify-error"></div>
+            <div class="verify-btn-group">
+                <button id="confirm-verify"></button>
+                <button id="cancel-verify"></button>
+            </div>
+        </div>
+    </div>
+    <!-- 欢迎弹窗 -->
+    <div class="welcome-box" id="welcomePage">
+        <h2 class="welcome-title" id="welcomeText"></h2>
+        <p class="fact-text" id="coldFact"></p>
+        <p class="countdown-tip" id="countTip"></p>
+    </div>
+    <div class="password-box" id="lockPage">
+        <div class="pwd-container">
+<p>语言不正确？在右侧修改</p>
+<p>Wrong language? Change it on the right</p>
+<p>Mauvaise langue ? Modifiez‑la à droite</p>
+<p>Falsche Sprache? Ändern Sie diese rechts</p>
+<p>	اللغة غير صحيحة؟ قم بالتعديل على اليمين</p>
+<p>Неверный язык? Измените справа</p>
+<p>言語が間違っていますか？右側で変更してください</p>
+            <h2 id="lockTitle">🔒 乖国特训官网访问验证</h2>
+            <input type="password" id="pwd-input" placeholder="请输入访问密码">
+            <div class="tip" id="errorTip"></div>
+            <button id="submit-pwd">确认进入</button>
+        </div>
+    </div>
+    <div class="blog-wrap" id="blogPage">
+        <header>
+            <h1 id="siteTitle">乖国特训官网</h1>
+            <p id="siteAuthor">站长 乖腿</p>
+        </header>
+        <nav>
+            <a href="https://bing.com" id="navSearch">搜索</a>
+        </nav>
+        <main>
+            <div class="post-form-wrap">
+                <h3 id="formTitle">发布新帖子</h3>
+                <input class="post-input" id="postTitle" placeholder="帖子标题">
+                <textarea class="post-input" id="postContent" placeholder="输入帖子内容..."></textarea>
+                <button id="submit-post">提交帖子</button>
+            </div>
+            <h3 class="post-section-title" id="postListTitle">帖子列表</h3>
+            <div id="postListBox"></div>
+            <hr>
+            <div class="article-card">
+                <h3 id="title1">乖国特训GSM下载</h3>
+                <span id="downloadText1" style="cursor:pointer;text-decoration:underline;color:#00d4ff;">下载</span>
+                <a href="GSM.7z" download="乖国特训GSM.7z" id="gsm-download-link" style="display:none;"></a>
+                <p id="desc1">点击上方↑链接以下载</p>
+            </div>
+            <hr>
+            <div class="article-card">
+                <h3 id="title2">乖国特训数学课本下载</h3>
+                <a href="教材.pdf" download="教材.pdf" id="downloadText2">下载</a>
+                <p id="desc2">点击上方↑链接以下载</p>
+            </div>
+            <hr>
+            <div class="article-card">
+                <h3 id="title3">乖腿私人网站</h3>
+                <div id="visitTip">永久访问</div>
+                <a href="https://vlink.cc/guaitui" id="visitText">参观</a>
+                <p id="desc3">点击上方↑链接以参观</p>
+            </div>
+            <hr>
+            <div class="article-card">
+                <h3 id="title4">因式分解资料</h3>
+                <p id="desc4">需要的自取...</p>
+                <a href="yinshi.pdf" download="因式分解资料.pdf" id="downloadText4">下载</a>
+                <p id="desc5">点击上方↑链接以下载</p>
+            </div>
+            <hr>
+            <div class="article-card">
+                <h3 id="contactTitle">联系方式</h3>
+                <p id="contactEmail">邮箱:gsm6ot@163.com</p>
+                <p id="contactQq">qq号:1210054186</p>
+            </div>
+            <hr>
+        </main>
+        <h2 id="examTip">来找点卷子做做吧！</h2>
+        <footer>
+            © <span id="year"></span> <span id="footerCopy">乖国特训官网</span>
+        </footer>
+    </div>
+<script>
+    const correctPassword = "gsm1";
+    const teacherValidCode = "4k58b"; // 教师验证码，页面不展示明文
+    const lockPage = document.getElementById('lockPage');
+    const blogPage = document.getElementById('blogPage');
+    const welcomePage = document.getElementById('welcomePage');
+    const welcomeText = document.getElementById('welcomeText');
+    const coldFact = document.getElementById('coldFact');
+    const countTip = document.getElementById('countTip');
+    const pwdInput = document.getElementById('pwd-input');
+    const submitBtn = document.getElementById('submit-pwd');
+    const errorTip = document.getElementById('errorTip');
+    const langSelect = document.getElementById('langSelect');
+    const postTitle = document.getElementById('postTitle');
+    const postContent = document.getElementById('postContent');
+    const submitPostBtn = document.getElementById('submit-post');
+    const postListBox = document.getElementById('postListBox');
+    // GSM验证弹窗DOM
+    const gsmVerifyModal = document.getElementById('gsmVerifyModal');
+    const verifyTitle = document.getElementById('verify-title');
+    const teacherCodeInput = document.getElementById('teacher-code-input');
+    const verifyErrorTip = document.getElementById('verify-error');
+    const confirmVerifyBtn = document.getElementById('confirm-verify');
+    const cancelVerifyBtn = document.getElementById('cancel-verify');
+    const downloadGsmText = document.getElementById('downloadText1');
+    const gsmRealLink = document.getElementById('gsm-download-link');
+    document.getElementById("year").innerText = new Date().getFullYear();
+    // 七国语言 10条冷知识翻译
+    const factMultiLang = {
+        zh: [
+            "蜂蜜永远不会变质，考古曾在古埃及墓穴挖出三千多年可食用蜂蜜",
+            "人类DNA约有50%和香蕉重合",
+            "章鱼有三颗心脏，两套独立记忆系统",
+            "地球上99%黄金藏在地核，地表极少",
+            "蜗牛可休眠3年不吃不喝存活",
+            "云朵平均重量可达500吨以上",
+            "柠檬本质是杂交水果，由酸橙与香橼培育而来",
+            "人睡觉时嗅觉会基本关闭，浓烟除外",
+            "蓝鲸心脏大小接近小型轿车，动脉能容小孩爬行",
+            "纸张存放久发黄，是木质素氧化导致"
+        ],
+        en: [
+            "Honey never spoils. Archaeologists found edible honey over 3,000 years old in ancient Egyptian tombs.",
+            "About 50% of human DNA matches bananas.",
+            "Octopuses have three hearts and two separate memory systems.",
+            "99% of Earth's gold is stored in the core, barely any exists on the surface.",
+            "Snails can hibernate for 3 years without food or water.",
+            "An average cloud weighs over 500 tons.",
+            "Lemons are hybrid fruits bred from limes and citrons.",
+            "Human sense of smell mostly shuts down during sleep, except for thick smoke.",
+            "A blue whale’s heart is roughly the size of a small car; its arteries are wide enough for a child to crawl through.",
+            "Paper turns yellow over time due to lignin oxidation."
+        ],
+        ja: [
+            "ハチミツは腐らない。考古学者は古代エジプトの墳墓から3000年以上前の食べられるハチミツを発掘した。",
+            "人間のDNAの約50％がバナナと一致する。",
+            "タコには心臓が3つ、独立した記憶システムが2組備わっている。",
+            "地球上の金の99％は地核に蓄えられており、地表にはほとんど存在しない。",
+            "カタツムリは餌も水もなしに3年間休眠して生きられる。",
+            "雲の平均重量は500トン以上に達する。",
+            "レモンはライムとシトロンを交配して作られた交雑果実である。",
+            "人間は睡眠中、濃い煙を除いて嗅覚がほとんど遮断される。",
+            "シロナガスクジラの心臓は小型車並みの大きさで、動脈は子供が這えるほど太い。",
+            "紙が長期保管で黄ばむのはリグニンの酸化が原因である。"
+        ],
+        ru: [
+            "Мёд никогда не портится. Археологи нашли съедобный мёд возрастом более 3000 лет в гробницах Древнего Египта.",
+            "Около 50% ДНК человека совпадает с ДНК бананов.",
+            "У осьминогов три сердца и две независимые системы памяти.",
+            "99% всего золота Земли находится в ядре, на поверхности его почти нет.",
+            "Улитки могут впадать в спячку 3 года без еды и воды.",
+            "Среднее облако весит более 500 тонн.",
+            "Лимоны — гибридные плоды, выведенные из лайма и цитрона.",
+            "Обоняние человека почти отключается во сне, кроме запаха густого дыма.",
+            "Сердце синего кита размером с небольшой автомобиль, его артерии достаточно широки, чтобы ребенок прополз сквозь них.",
+            "Бумага со временем желтеет из-за окисления лигнина."
+        ],
+        fr: [
+            "Le miel ne se gâte jamais. Des archéologues ont découvert du miel comestible vieux de plus de 3 000 ans dans des tombes égyptiennes antiques.",
+            "Environ 50 % de l’ADN humain correspond à celui de la banane.",
+            "Les pieuvres possèdent trois cœurs et deux systèmes de mémoire indépendants.",
+            "99 % de l’or de la Terre est stocké dans le noyau, il y en a très peu à la surface.",
+            "Les escargots peuvent hiberner 3 ans sans nourriture ni eau.",
+            "Un nuage moyen pèse plus de 500 tonnes.",
+            "Le citron est un fruit hybride issu du croisement du limette et du cédrat.",
+            "L’odorat humain se bloque presque complètement pendant le sommeil, sauf pour la fumée épaisse.",
+            "Le cœur d’une baleine bleue a la taille d’une petite voiture ; ses artères sont assez larges pour qu’un enfant puisse ramper dedans.",
+            "Le papier jaunit avec le temps à cause de l’oxydation de la lignine."
+        ],
+        de: [
+            "Honig verdirbt niemals. Archäologen haben in altägyptischen Gräbern über 3000 Jahre alten essbaren Honig gefunden.",
+            "Etwa 50 % der menschlichen DNA stimmen mit der von Bananen überein.",
+            "Oktopusse haben drei Herzen und zwei unabhängige Gedächtnissysteme.",
+            "99 % des Goldes der Erde befinden sich im Erdkern, auf der Oberfläche gibt es kaum welches.",
+            "Schnecken können 3 Jahre ohne Nahrung und Wasser überwintern.",
+            "Eine durchschnittliche Wolke wiegt über 500 Tonnen.",
+            "Zitronen sind Hybridfrüchte, gezüchtet aus Limetten und Zitronatzitronen.",
+            "Der menschliche Geruchssinn schaltet sich im Schlaf fast aus, außer bei starkem Rauch.",
+            "Das Herz eines Blauwals ist etwa so groß wie ein Kleinwagen, seine Arterien sind breit genug, dass ein Kind hindurchkriechen kann.",
+            "Papier vergilbt mit der Zeit durch die Oxidation von Lignin."
+        ],
+        ar: [
+            "العسل لا يفسد أبدًا، فقد اكتشف علماء الآثار عسلًا صالحًا للأكل عمره أكثر من ثلاثة آلاف سنة في مقابر مصر القديمة.",
+            "حوالي 50٪ من الحمض النووي البشري يتطابق مع موز الموز.",
+            "للأخطبوط ثلاثة قلوب ونظامي ذاكرة منفصلان.",
+            "99٪ من ذهب الأرض مخزن في نواة الأرض، ولا يوجد سوى القليل جدًا على السطح.",
+            "يمكن للحلزونات السبات لمدة ثلاث سنوات بدون طعام أو ماء.",
+            "متوسط وزن السحاب يزيد عن 500 طن.",
+            "الليمون هو فاكهة هجينة تم تربيتها من الليمون الأخضر والكيدرات.",
+            "حاسة الشم عند الإنسان تغلق تقريبًا أثناء النوم، باستثناء الدخان الكثيف.",
+            "قلب الحوت الأزرق بحجم سيارة صغيرة تقريبًا، وشرايينه واسعة بما يكفي لزحف طفل بداخلها.",
+            "الورق يصفر مع مرور الوقت نتيجة أكسدة الليغنين."
+        ]
+    };
+    const langData = {
+        zh: {
+            lockTitle: "🔒 乖国特训官网访问验证",
+            pwdPlaceholder: "请输入访问密码",
+            pwdErr: "密码错误，请重新输入",
+            submitBtn: "确认进入",
+            siteTitle: "乖国特训官网",
+            siteAuthor: "站长 乖腿",
+            navSearch: "搜索",
+            title1: "乖国特训GSM下载",
+            downloadText1: "下载",
+            desc1: "点击上方↑链接以下载",
+            title2: "乖国特训数学课本下载",
+            downloadText2: "下载",
+            desc2: "点击上方↑链接以下载",
+            title3: "乖腿私人网站",
+            visitTip: "永久访问",
+            visitText: "参观",
+            desc3: "点击上方↑链接以参观",
+            title4: "因式分解资料",
+            desc4: "需要的自取...",
+            downloadText4: "下载",
+            desc5: "点击上方↑链接以下载",
+            examTip: "来找点卷子做做吧！",
+            footerCopy: "乖国特训官网",
+            formTitle: "发布新帖子",
+            postTitleHolder: "帖子标题",
+            postContentHolder: "输入帖子内容...",
+            submitPostBtn: "提交帖子",
+            postListTitle: "帖子列表",
+            emptyPostTip: "暂无帖子",
+            alertTip: "确认发布，帖子将保存到本地服务，本机访问服务均可看到",
+            successTip: "发布成功！",
+            welcome: "欢迎来到乖国特训官网",
+            countDownText: "正在提交申请，预计还有 {sec} 秒进入主页",
+            // GSM验证弹窗文本
+            verifyTitle: "教师验证码验证",
+            verifyPlaceholder: "输入教师验证码",
+            verifyErr: "验证码错误，请核对后重试",
+            confirmVerify: "验证并下载",
+            cancelVerify: "取消",
+            contactTitle:"联系方式",
+            contactEmail:"邮箱:gsm6ot@163.com",
+            contactQq:"qq号:1210054186"
+        },
+        en: {
+            lockTitle: "🔒 Geoder Training Site Access Verify",
+            pwdPlaceholder: "Enter access password",
+            pwdErr: "Wrong password, try again",
+            submitBtn: "Enter Site",
+            siteTitle: "Geoder Training Official Site",
+            siteAuthor: "Webmaster: Guaitui",
+            navSearch: "Search",
+            title1: "Geoder Training GSM Download",
+            downloadText1: "Download",
+            desc1: "Click the link above to download",
+            title2: "Geoder Math Textbook Download",
+            downloadText2: "Download",
+            desc2: "Click the link above to download",
+            title3: "Guaitui Personal Website",
+            visitTip: "Permanent Access",
+            visitText: "Visit",
+            desc3: "Click the link above to visit",
+            title4: "Factorization Materials",
+            desc4: "Take it if you need...",
+            downloadText4: "Download",
+            desc5: "Click the link above to download",
+            examTip: "Try some exam papers!",
+            footerCopy: "Geoder Training Official Site",
+            formTitle: "Create New Post",
+            postTitleHolder: "Post Title",
+            postContentHolder: "Write post content...",
+            submitPostBtn: "Publish Post",
+            postListTitle: "Post List",
+            emptyPostTip: "No posts yet",
+            alertTip: "Confirm publish. Posts saved on local server, visible for everyone accessing this service.",
+            successTip: "Published successfully!",
+            welcome: "Welcome to Geoder Training Official Site",
+            countDownText: "Submitting application, about {sec} seconds to enter homepage",
+            verifyTitle: "Teacher Code Verification",
+            verifyPlaceholder: "Input teacher verification code",
+            verifyErr: "Incorrect code, please check and retry",
+            confirmVerify: "Verify & Download",
+            cancelVerify: "Cancel",
+            contactTitle:"Contact Information",
+            contactEmail:"Email:gsm6ot@163.com",
+            contactQq:"QQ:1210054186"
+        },
+        ja: {
+            lockTitle: "🔒 乖国特訓サイト アクセス認証",
+            pwdPlaceholder: "アクセスパスワードを入力",
+            pwdErr: "パスワードが違います。再入力してください",
+            submitBtn: "サイトに入る",
+            siteTitle: "乖国特訓公式サイト",
+            siteAuthor: "管理者：乖腿",
+            navSearch: "検索",
+            title1: "乖国特訓GSM ダウンロード",
+            downloadText1: "ダウンロード",
+            desc1: "上のリンクをクリックしてダウンロード",
+            title2: "乖国特訓数学教科書 ダウンロード",
+            downloadText2: "ダウンロード",
+            desc2: "上のリンクをクリックしてダウンロード",
+            title3: "乖腿個人サイト",
+            visitTip: "永久アクセス可能",
+            visitText: "見に行く",
+            desc3: "上のリンクをクリックして閲覧",
+            title4: "因数分解資料",
+            desc4: "必要な方はご自由にお持ちください",
+            downloadText4: "ダウンロード",
+            desc5: "上のリンクをクリックしてダウンロード",
+            examTip: "問題集を解いてみましょう！",
+            footerCopy: "乖国特訓公式サイト",
+            formTitle: "新規投稿作成",
+            postTitleHolder: "投稿タイトル",
+            postContentHolder: "投稿本文を入力...",
+            submitPostBtn: "投稿する",
+            postListTitle: "投稿一覧",
+            emptyPostTip: "投稿がありません",
+            alertTip: "投稿を確定します。ローカルサーバーに保存され、サービスにアクセスする全員が閲覧できます。",
+            successTip: "投稿完了！",
+            welcome: "乖国特訓公式サイトへようこそ",
+            countDownText: "申請を送信中、あと約{sec}秒でホームページへ入ります",
+            verifyTitle: "教員コード認証",
+            verifyPlaceholder: "教員認証コードを入力",
+            verifyErr: "コードが間違っています、確認して再入力してください",
+            confirmVerify: "認証してダウンロード",
+            cancelVerify: "キャンセル",
+            contactTitle:"連絡先",
+            contactEmail:"メール:gsm6ot@163.com",
+            contactQq:"QQ:1210054186"
+        },
+        ru: {
+            lockTitle: "🔒 Проверка доступа сайта тренировок Гуайгу",
+            pwdPlaceholder: "Введите пароль доступа",
+            pwdErr: "Неверный пароль, повторите ввод",
+            submitBtn: "Войти на сайт",
+            siteTitle: "Официальный сайт тренировок Гуайгу",
+            siteAuthor: "Вебмастер: Гуайтуй",
+            navSearch: "Поиск",
+            title1: "Скачать GSM тренировок Гуайгу",
+            downloadText1: "Скачать",
+            desc1: "Нажмите ссылку выше для скачивания",
+            title2: "Скачать учебник математики Гуайгу",
+            downloadText2: "Скачать",
+            desc2: "Нажмите ссылку выше для скачивания",
+            title3: "Личный сайт Гуайтуя",
+            visitTip: "Постоянный доступ",
+            visitText: "Перейти",
+            desc3: "Нажмите ссылку выше для посещения",
+            title4: "Материалы по разложению множителей",
+            desc4: "Берите, если нужно...",
+            downloadText4: "Скачать",
+            desc5: "Нажмите ссылку выше для скачивания",
+            examTip: "Решите тестовые задания!",
+            footerCopy: "Официальный сайт тренировок Гуайгу",
+            formTitle: "Создать новый пост",
+            postTitleHolder: "Заголовок поста",
+            postContentHolder: "Напишите содержание поста...",
+            submitPostBtn: "Опубликовать",
+            postListTitle: "Список постов",
+            emptyPostTip: "Постов нет",
+            alertTip: "Подтвердить публикацию. Посты сохраняются на локальном сервере, видны всем пользователям сервиса.",
+            successTip: "Опубликовано!",
+            welcome: "Добро пожаловать на официальный сайт тренировок Гуайгу",
+            countDownText: "Отправка заявки, до главной страницы осталось {sec} секунд",
+            verifyTitle: "Проверка кода преподавателя",
+            verifyPlaceholder: "Введите код преподавателя",
+            verifyErr: "Неверный код, проверьте и повторите",
+            confirmVerify: "Проверить и скачать",
+            cancelVerify: "Отмена",
+            contactTitle:"Контактная информация",
+            contactEmail:"Почта:gsm6ot@163.com",
+            contactQq:"QQ:1210054186"
+        },
+        fr: {
+            lockTitle: "🔒 Vérification d'accès au site de formation Geoder",
+            pwdPlaceholder: "Saisissez le mot de passe d'accès",
+            pwdErr: "Mot de passe incorrect, réessayez",
+            submitBtn: "Entrer sur le site",
+            siteTitle: "Site officiel de formation Geoder",
+            siteAuthor: "Webmaster : Guaitui",
+            navSearch: "Rechercher",
+            title1: "Télécharger GSM de formation Geoder",
+            downloadText1: "Télécharger",
+            desc1: "Cliquez sur le lien ci‑dessus pour télécharger",
+            title2: "Télécharger manuel de mathématiques Geoder",
+            downloadText2: "Télécharger",
+            desc2: "Cliquez sur le lien ci‑dessus pour télécharger",
+            title3: "Site personnel de Guaitui",
+            visitTip: "Accès permanent",
+            visitText: "Visiter",
+            desc3: "Cliquez sur le lien ci‑dessus pour visiter",
+            title4: "Documents de factorisation",
+            desc4: "Prenez‑les si vous en avez besoin...",
+            downloadText4: "Télécharger",
+            desc5: "Cliquez sur le lien ci‑dessus pour télécharger",
+            examTip: "Essayez des exercices d'examen !",
+            footerCopy: "Site officiel de formation Geoder",
+            formTitle: "Créer un nouveau billet",
+            postTitleHolder: "Titre du billet",
+            postContentHolder: "Écrivez votre contenu...",
+            submitPostBtn: "Publier",
+            postListTitle: "Liste des billets",
+            emptyPostTip: "Aucun billet",
+            alertTip: "Confirmer la publication. Les billets sont enregistrés sur le serveur local et visibles pour tous ceux qui accèdent au service.",
+            successTip: "Publié avec succès!",
+            welcome: "Bienvenue sur le site officiel de formation Geoder",
+            countDownText: "Soumission de la demande, il reste environ {sec} secondes pour accéder à la page d'accueil",
+            verifyTitle: "Vérification code enseignant",
+            verifyPlaceholder: "Saisissez le code enseignant",
+            verifyErr: "Code invalide, vérifiez et réessayez",
+            confirmVerify: "Vérifier et télécharger",
+            cancelVerify: "Annuler",
+            contactTitle:"Informations de contact",
+            contactEmail:"E‑mail:gsm6ot@163.com",
+            contactQq:"QQ:1210054186"
+        },
+        de: {
+            lockTitle: "🔒 Zugriffsprüfung Geoder Trainingsseite",
+            pwdPlaceholder: "Zugangspasswort eingeben",
+            pwdErr: "Falsches Passwort, bitte erneut eingeben",
+            submitBtn: "Seite betreten",
+            siteTitle: "Offizielle Geoder Trainingsseite",
+            siteAuthor: "Webmaster: Guaitui",
+            navSearch: "Suchen",
+            title1: "Geoder Training GSM herunterladen",
+            downloadText1: "Herunterladen",
+            desc1: "Klicken Sie auf den oberen Link zum Herunterladen",
+            title2: "Geoder Mathematik‑Lehrbuch herunterladen",
+            downloadText2: "Herunterladen",
+            desc2: "Klicken Sie auf den oberen Link zum Herunterladen",
+            title3: "Guaituis private Webseite",
+            visitTip: "Dauerzugriff",
+            visitText: "Besuchen",
+            desc3: "Klicken Sie auf den oberen Link zum Besuch",
+            title4: "Faktorisierungsmaterialien",
+            desc4: "Nehmen Sie es, falls benötigt...",
+            downloadText4: "Herunterladen",
+            desc5: "Klicken Sie auf den oberen Link zum Herunterladen",
+            examTip: "Probieren Sie einige Prüfungsaufgaben aus!",
+            footerCopy: "Offizielle Geoder Trainingsseite",
+            formTitle: "Neuen Beitrag erstellen",
+            postTitleHolder: "Beitragstitel",
+            postContentHolder: "Beitragstext schreiben...",
+            submitPostBtn: "Veröffentlichen",
+            postListTitle: "Beitragsliste",
+            emptyPostTip: "Keine Beiträge vorhanden",
+            alertTip: "Veröffentlichung bestätigen. Beiträge werden auf dem lokalen Server gespeichert und sind für alle Nutzer des Dienstes sichtbar.",
+            successTip: "Erfolgreich veröffentlicht!",
+            welcome: "Willkommen auf der offiziellen Geoder Trainingsseite",
+            countDownText: "Antrag wird eingereicht, noch ca. {sec} Sekunden bis zur Startseite",
+            verifyTitle: "Lehrer-Code Prüfung",
+            verifyPlaceholder: "Lehrer-Prüfcode eingeben",
+            verifyErr: "Code falsch, bitte prüfen und neu eingeben",
+            confirmVerify: "Prüfen & Herunterladen",
+            cancelVerify: "Abbrechen",
+            contactTitle:"Kontaktinformationen",
+            contactEmail:"E‑Mail:gsm6ot@163.com",
+            contactQq:"QQ:1210054186"
+        },
+        ar: {
+            lockTitle: "🔒 التحقق من الوصول لموقع تدريب غوايغو",
+            pwdPlaceholder: "أدخل كلمة المرور للوصول",
+            pwdErr: "كلمة المرور خاطئة، حاول مرة أخرى",
+            submitBtn: "دخول الموقع",
+            siteTitle: "الموقع الرسمي لتدريب غوايغو",
+            siteAuthor: "مشرف الموقع: غوايتوي",
+            navSearch: "بحث",
+            title1: "تحميل ملف جي إس إم لتدريب غوايغو",
+            downloadText1: "تحميل",
+            desc1: "انقر على الرابط أعلاه للتحميل",
+            title2: "تحميل كتاب الرياضيات لغوايغو",
+            downloadText2: "تحميل",
+            desc2: "انقر على الرابط أعلاه للتحميل",
+            title3: "الموقع الشخصي لغوايتوي",
+            visitTip: "وصول دائم",
+            visitText: "زيارة",
+            desc3: "انقر على الرابط أعلاه للزيارة",
+            title4: "ملفات تحليل العوامل",
+            desc4: "خذها إذا كنت بحاجة...",
+            downloadText4: "تحميل",
+            desc5: "انقر على الرابط أعلاه للتحميل",
+            examTip: "جرب بعض أوراق الامتحان!",
+            footerCopy: "الموقع الرسمي لتدريب غوايغو",
+            formTitle: "إنشاء منشور جديد",
+            postTitleHolder: "عنوان المنشور",
+            postContentHolder: "اكتب محتوى المنشور...",
+            submitPostBtn: "نشر المنشور",
+            postListTitle: "قائمة المنشورات",
+            emptyPostTip: "لا توجد منشورات",
+            alertTip: "تأكيد النشر، المنشورات تُحفظ على الخادم المحلي ويراها كل من يصل إلى الخدمة.",
+            successTip: "تم النشر بنجاح!",
+            welcome: "أهلاً بك في الموقع الرسمي لتدريب غوايغو",
+            countDownText: "جاري تقديم الطلب، يتبقى حوالي {sec} ثوانٍ للدخول إلى الصفحة الرئيسية",
+            verifyTitle: "التحقق من كود المعلم",
+            verifyPlaceholder: "أدخل كود تحقق المعلم",
+            verifyErr: "الكود غير صحيح، تحقق وحاول مرة أخرى",
+            confirmVerify: "تحقق وتحميل",
+            cancelVerify: "إلغاء",
+            contactTitle:"معلومات الاتصال",
+            contactEmail:"البريد الإلكتروني:gsm6ot@163.com",
+            contactQq:"QQ:1210054186"
+        }
+    };
+    let currentLang = "zh";
+    function escapeHtml(str) {
+        return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace( />/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    // 从后端拉取帖子
+    async function fetchPosts(){
+        try {
+            const res = await fetch("/api/posts");
+            return await res.json();
+        }catch(e){
+            return [];
+        }
+    }
+    // 渲染帖子
+    async function renderPosts() {
+        const list = await fetchPosts();
+        const t = langData[currentLang];
+        if (list.length === 0) {
+            postListBox.innerHTML = `<p style="color:#aaa">${t.emptyPostTip}</p>`;
+            return;
+        }
+        let html = "";
+        list.forEach(item => {
+            html += `
+                <div class="post-item">
+                    <h4>${escapeHtml(item.title)}</h4>
+                    <div class="post-time">${escapeHtml(item.time)}</div>
+                    <div class="post-content">${escapeHtml(item.content)}</div>
+                </div>
+            `;
+        });
+        postListBox.innerHTML = html;
+    }
+    // 提交帖子到后端
+    submitPostBtn.addEventListener("click", async function(){
+        const t = langData[currentLang];
+        const titleVal = postTitle.value.trim();
+        const contentVal = postContent.value.trim();
+        if (!titleVal || !contentVal) {
+            alert(t.emptyPostTip);
+            return;
+        }
+        if (!confirm(t.alertTip)) return;
+        const now = new Date().toLocaleString();
+        try{
+            await fetch("/api/post",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({title:titleVal,content:contentVal,time:now})
+            })
+            postTitle.value="";
+            postContent.value="";
+            await renderPosts();
+            alert(t.successTip);
+        }catch(err){
+            alert("发布失败，确认server.js是否正在运行");
+        }
+    })
+    // 设置语言，同步更新验证弹窗、冷知识、联系方式
+    function setLang(lang) {
+        currentLang = lang;
+        const t = langData[lang];
+        // 原有页面文字
+        document.getElementById('lockTitle').innerText = t.lockTitle;
+        pwdInput.placeholder = t.pwdPlaceholder;
+        submitBtn.innerText = t.submitBtn;
+        document.getElementById('siteTitle').innerText = t.siteTitle;
+        document.getElementById('siteAuthor').innerText = t.siteAuthor;
+        document.getElementById('navSearch').innerText = t.navSearch;
+        document.getElementById('title1').innerText = t.title1;
+        document.getElementById('downloadText1').innerText = t.downloadText1;
+        document.getElementById('desc1').innerText = t.desc1;
+        document.getElementById('title2').innerText = t.title2;
+        document.getElementById('downloadText2').innerText = t.downloadText2;
+        document.getElementById('desc2').innerText = t.desc2;
+        document.getElementById('title3').innerText = t.title3;
+        document.getElementById('visitTip').innerText = t.visitTip;
+        document.getElementById('visitText').innerText = t.visitText;
+        document.getElementById('desc3').innerText = t.desc3;
+        document.getElementById('title4').innerText = t.title4;
+        document.getElementById('desc4').innerText = t.desc4;
+        document.getElementById('downloadText4').innerText = t.downloadText4;
+        document.getElementById('desc5').innerText = t.desc5;
+        document.getElementById('examTip').innerText = t.examTip;
+        document.getElementById('footerCopy').innerText = t.footerCopy;
+        document.getElementById('formTitle').innerText = t.formTitle;
+        postTitle.placeholder = t.postTitleHolder;
+        postContent.placeholder = t.postContentHolder;
+        submitPostBtn.innerText = t.submitPostBtn;
+        document.getElementById('postListTitle').innerText = t.postListTitle;
+        // 联系方式
+        document.getElementById('contactTitle').innerText = t.contactTitle;
+        document.getElementById('contactEmail').innerText = t.contactEmail;
+        document.getElementById('contactQq').innerText = t.contactQq;
+        // GSM验证弹窗文字
+        verifyTitle.innerText = t.verifyTitle;
+        teacherCodeInput.placeholder = t.verifyPlaceholder;
+        confirmVerifyBtn.innerText = t.confirmVerify;
+        cancelVerifyBtn.innerText = t.cancelVerify;
+        verifyErrorTip.innerText = "";
+        let htmlLang;
+        switch(lang){
+            case 'zh': htmlLang = 'zh‑CN'; break;
+            case 'en': htmlLang = 'en'; break;
+            case 'ja': htmlLang = 'ja'; break;
+            case 'ru': htmlLang = 'ru'; break;
+            case 'fr': htmlLang = 'fr'; break;
+            case 'de': htmlLang = 'de'; break;
+            case 'ar': htmlLang = 'ar'; break;
+        }
+        document.documentElement.lang = htmlLang;
+        renderPosts();
+    }
+    // GSM下载点击弹出验证码窗口
+    downloadGsmText.addEventListener("click", ()=>{
+        gsmVerifyModal.style.display = "flex";
+        teacherCodeInput.value = "";
+        verifyErrorTip.innerText = "";
+    })
+    // 取消验证弹窗
+    cancelVerifyBtn.addEventListener("click", ()=>{
+        gsmVerifyModal.style.display = "none";
+    })
+    // 验证教师验证码
+    confirmVerifyBtn.addEventListener("click", ()=>{
+        const t = langData[currentLang];
+        const inputCode = teacherCodeInput.value.trim();
+        if(inputCode === teacherValidCode){
+            // 验证通过，触发下载
+            gsmRealLink.click();
+            gsmVerifyModal.style.display = "none";
+        }else{
+            verifyErrorTip.innerText = t.verifyErr;
+        }
+    })
+    // 验证码输入框回车确认
+    teacherCodeInput.addEventListener("keydown", e=>{
+        if(e.key === "Enter") confirmVerifyBtn.click();
+    })
+    // 密码正确后执行欢迎页动画
+    function showWelcomeScreen() {
+        lockPage.style.display = "none";
+        welcomePage.style.display = "flex";
+        const t = langData[currentLang];
+        welcomeText.innerText = t.welcome;
+        let factIndex = 0;
+        let remainSec = 20;
+        // 读取当前语言冷知识
+        const currentFactList = factMultiLang[currentLang];
+        coldFact.innerText = currentFactList[0];
+        countTip.innerText = t.countDownText.replace("{sec}",remainSec);
+        // 每2秒切换冷知识
+        const factTimer = setInterval(()=>{
+            factIndex++;
+            if(factIndex >= currentFactList.length) factIndex = 0;
+            coldFact.innerText = currentFactList[factIndex];
+        }, 2000);
+        // 倒计时每秒更新
+        const countTimer = setInterval(()=>{
+            remainSec--;
+            countTip.innerText = t.countDownText.replace("{sec}",remainSec);
+            if(remainSec <= 0){
+                clearInterval(factTimer);
+                clearInterval(countTimer);
+                welcomePage.style.display = "none";
+                blogPage.style.display = "block";
+                renderPosts();
+            }
+        }, 1000);
+    }
+    langSelect.addEventListener("change", () => {
+        setLang(langSelect.value);
+    })
+    function checkPassword(){
+        const val = pwdInput.value.trim();
+        if (val === correctPassword) {
+            showWelcomeScreen();
+        } else {
+            const t = langData[currentLang];
+            errorTip.innerText = t.pwdErr;
+            pwdInput.value = "";
+        }
+    }
+    submitBtn.addEventListener("click", checkPassword);
+    pwdInput.addEventListener("keydown", e=>{
+        if(e.key === "Enter") checkPassword();
+    })
+    setLang("en");
+    langSelect.value = "en";
+</script>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <rect id="canvas-background" x="0" y="0" width="100" height="100" fill="#ffffff" />
+  <g xmlns="http://www.w3.org/2000/svg" id="node-1786876898301-1z3m" data-node="true" data-node-kind="circle" data-node-version="1" data-node-x="0" data-node-y="0" data-node-width="100" data-node-height="100" class="">
+    <circle r="50" cx="50" cy="50" data-role="shape" id="shape-1786876898302-bo1m" fill="#ffffff" stroke-width="1.5" stroke="#333333" />
+    <text data-role="label" data-node-content="乖国特训" data-node-align="center" data-line-height="1.2" text-anchor="middle" xml:space="preserve" id="label-1786876898304-bcaa" fill="#1f2937" font-family="system-ui, sans-serif" font-size="16" font-weight="normal" font-style="normal" style="pointer-events: none; user-select: none;" dominant-baseline="middle" alignment-baseline="middle" opacity="1" x="50" y="50">
+      <tspan x="50" id="SvgjsTspan1010">
+        乖国特训
+      </tspan>
+    </text>
+  </g>
+</svg>
+</body>
+</html>
